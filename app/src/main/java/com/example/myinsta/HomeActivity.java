@@ -14,7 +14,7 @@ import android.provider.Settings;
 import android.widget.Toast;
 
 import com.example.myinsta.classes.MySharedPrefrence;
-import com.example.myinsta.classes.NewPostDialog;
+import com.example.myinsta.classes.NewPostActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -95,6 +95,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void goToDialog() {
+        startActivity(new Intent(HomeActivity.this, NewPostActivity.class));
 
     }
 }
