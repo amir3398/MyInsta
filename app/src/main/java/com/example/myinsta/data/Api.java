@@ -19,4 +19,7 @@ public interface Api {
     @GET("login.php")
     Call<JsonResponseModel> loginUser(@Query("user") String username, @Query("pass") String password);
 
+    @FormUrlEncoded
+    @POST("newpost.php")
+    Call<JsonResponseModel> newpost(@Field("image") String image ,@Field("picname") String picname);
 }
