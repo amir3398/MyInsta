@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.example.myinsta.classes.MySharedPrefrence;
 import com.example.myinsta.classes.NewPostActivity;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -23,6 +25,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 public class HomeActivity extends AppCompatActivity {
     private MaterialButton exit;
     private FloatingActionButton fab;
+    private SimpleDraweeView draweeView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +80,8 @@ public class HomeActivity extends AppCompatActivity {
     private void init() {
         exit = findViewById(R.id.home_exit);
         fab = findViewById(R.id.home_fab);
+        draweeView = findViewById(R.id.home_simple);
+        draweeView.setImageURI(Uri.parse("https://cdn57.androidauthority.net/wp-content/uploads/2018/10/Android-Developers.jpg"));
     }
 
     private int checkPermissin(){
