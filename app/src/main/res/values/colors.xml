@@ -6,4 +6,5 @@
     <color name="colorCard">#BFAEEA00</color>
     <color name="colorRed">#FF0404</color>
     <color name="colorGreenDark">#37753A</color>
+    <color name="colorRow">#E68AF3</color>
 </resources>

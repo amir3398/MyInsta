@@ -4,9 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,10 +18,18 @@ import android.widget.Toast;
 
 import com.example.myinsta.classes.MySharedPrefrence;
 import com.example.myinsta.classes.NewPostActivity;
+import com.example.myinsta.classes.PostAdapter;
+import com.example.myinsta.data.RetrofitClient;
+import com.example.myinsta.model.JsonResponseModel;
+import com.example.myinsta.model.PostModel;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
@@ -26,6 +37,7 @@ public class HomeActivity extends AppCompatActivity {
     private MaterialButton exit;
     private FloatingActionButton fab;
     private SimpleDraweeView draweeView;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +45,56 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         init();
-        clicksExit();
+
     }
 
-    private void clicksExit() {
+    private void init() {
+        exit = findViewById(R.id.home_exit);
+        fab = findViewById(R.id.home_fab);
+        recyclerView = findViewById(R.id.home_recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        onclicks();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getData();
+        version();
+    }
+
+    private void version(){
+        RetrofitClient.getInstance(this).getApi()
+                .verify(MySharedPrefrence.getInstance(this).getUsername(),"android")
+                .enqueue(new Callback<JsonResponseModel>() {
+                    @Override
+                    public void onResponse(Call<JsonResponseModel> call, Response<JsonResponseModel> response) {
+                        if(response.isSuccessful()){
+                            try {
+                                PackageInfo info=getPackageManager().getPackageInfo(getPackageName(),0);
+                                int myVersion=info.versionCode;
+                                if (myVersion<Integer.parseInt(response.body().getMessage())){
+                                    Toast.makeText(HomeActivity.this, "new version is available", Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (PackageManager.NameNotFoundException e) {
+                                e.printStackTrace();
+                            }
+
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonResponseModel> call, Throwable t) {
+
+                    }
+                });
+
+    }
+
+    private void onclicks() {
         exit.setOnClickListener(v -> {
             MySharedPrefrence.getInstance(HomeActivity.this).clearSharedPrefrence();
             startActivity(new Intent(HomeActivity.this, MainActivity.class));
@@ -77,11 +135,21 @@ public class HomeActivity extends AppCompatActivity {
         builder.show();
     }
 
-    private void init() {
-        exit = findViewById(R.id.home_exit);
-        fab = findViewById(R.id.home_fab);
-        draweeView = findViewById(R.id.home_simple);
-        draweeView.setImageURI(Uri.parse("https://cdn57.androidauthority.net/wp-content/uploads/2018/10/Android-Developers.jpg"));
+    private  void getData(){
+        RetrofitClient.getInstance(this).getApi().getPost().enqueue(new Callback<PostModel>() {
+            @Override
+            public void onResponse(Call<PostModel> call, Response<PostModel> response) {
+                if(response.isSuccessful()) {
+                    PostAdapter adapter = new PostAdapter(HomeActivity.this, response.body().getData());
+                    recyclerView.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PostModel> call, Throwable t) {
+
+            }
+        });
     }
 
     private int checkPermissin(){

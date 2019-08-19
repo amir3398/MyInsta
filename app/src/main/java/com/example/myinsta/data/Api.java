@@ -1,6 +1,7 @@
 package com.example.myinsta.data;
 
 import com.example.myinsta.model.JsonResponseModel;
+import com.example.myinsta.model.PostModel;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -23,4 +24,14 @@ public interface Api {
     @POST("newpost.php")
     Call<JsonResponseModel> newpost(@Field("username") String username ,@Field("image") String image ,
                                     @Field("picname") String picname,@Field("des") String des );
+
+    @GET("getPost.php")
+    Call<PostModel> getPost();
+
+    @FormUrlEncoded
+    @POST("verify.php")
+    Call<JsonResponseModel> verify(@Field("username") String username ,@Field("os") String os  );
+
+
+
 }

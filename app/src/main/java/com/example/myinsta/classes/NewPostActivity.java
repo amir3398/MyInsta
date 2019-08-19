@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.emoji.widget.EmojiEditText;
 
 import com.example.myinsta.R;
 import com.example.myinsta.data.RetrofitClient;
@@ -24,6 +25,7 @@ import com.google.android.material.button.MaterialButton;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -34,7 +36,7 @@ import retrofit2.Response;
 
 public class NewPostActivity extends AppCompatActivity {
     private MaterialButton select, save, back;
-    private EditText des;
+    private EmojiEditText des;
     private ImageView img;
     private String path;
     private Bitmap bitmap;
@@ -124,11 +126,25 @@ public class NewPostActivity extends AppCompatActivity {
         String picname = new SimpleDateFormat("_yyyymmdd_hhMMss", Locale.ENGLISH).format(new Date());
 
         String u = MySharedPrefrence.getInstance(this).getUsername();
-        String d = des.getText().toString() + "";
+
+        //String d = des.getText().toString() + "";
+
+        if(des.getText().toString().equals("")){
+            Toast.makeText(this, "complete the form", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+        byte[]  d = new byte[0];
+        try {
+            d = des.getText().toString().getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
 
         RetrofitClient.getInstance(this).getApi().newpost(u, toBase64(bitmap),
-                u + picname, d)
+                u + picname,Base64.encodeToString(d,Base64.DEFAULT))
                 .enqueue(new Callback<JsonResponseModel>() {
                     @Override
                     public void onResponse(Call<JsonResponseModel> call, Response<JsonResponseModel> response) {
