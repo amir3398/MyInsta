@@ -45,6 +45,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.user.setText(item.getId());
         holder.simple.setImageURI(Uri.parse(context.getString(R.string.image_address,item.getImage())));
 
+        holder.date.setText(item.getDate());
+        holder.id.setText(item.getId());
+        holder.commentCount.setText(item.getComment()+"");
+
 
     }
 
@@ -54,7 +58,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView user;
+        private TextView user,date,id,commentCount;
         private EmojiTextView des;
         private SimpleDraweeView simple;
 
@@ -64,6 +68,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             user=v.findViewById(R.id.row_post_user);
             des=v.findViewById(R.id.row_post_des);
             simple=v.findViewById(R.id.row_post_simple);
+            id=v.findViewById(R.id.row_post_id);
+            date=v.findViewById(R.id.row_post_date);
+            commentCount=v.findViewById(R.id.row_post_comment_count);
         }
     }
 }

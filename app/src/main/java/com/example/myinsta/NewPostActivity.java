@@ -175,10 +175,8 @@ public class NewPostActivity extends AppCompatActivity {
                 builder.setTitle("Alert");
                 builder.setMessage("are you sure?");
                 builder.setPositiveButton("yes", (a, b) -> {
-                    //img.setImageURI(data.getData());
-                    try {
-                       // bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-                        CropImage.activity(data.getData())
+
+                    CropImage.activity(data.getData())
                                 .setGuidelines(CropImageView.Guidelines.ON)
                                 .setAspectRatio(1,1)
                                 .setAutoZoomEnabled(true)
@@ -197,9 +195,7 @@ public class NewPostActivity extends AppCompatActivity {
 
                                 .start(this);
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+
                 });
                 builder.setNegativeButton("select again", (dialog, b) -> {
                     selectFromGallery();

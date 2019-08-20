@@ -7,6 +7,12 @@ public class PostItem {
     private String image;
     private String date;
 
+    public String getComment() {
+        return comment;
+    }
+
+    private String comment;
+
     public String getId() {
         return id;
     }
