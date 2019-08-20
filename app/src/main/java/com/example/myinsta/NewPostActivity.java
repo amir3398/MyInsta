@@ -1,4 +1,4 @@
-package com.example.myinsta.classes;
+package com.example.myinsta;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -17,10 +16,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.emoji.widget.EmojiEditText;
 
-import com.example.myinsta.R;
+import com.example.myinsta.classes.MySharedPrefrence;
 import com.example.myinsta.data.RetrofitClient;
 import com.example.myinsta.model.JsonResponseModel;
 import com.google.android.material.button.MaterialButton;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -174,11 +175,29 @@ public class NewPostActivity extends AppCompatActivity {
                 builder.setTitle("Alert");
                 builder.setMessage("are you sure?");
                 builder.setPositiveButton("yes", (a, b) -> {
-                    img.setImageURI(data.getData());
+                    //img.setImageURI(data.getData());
                     try {
-                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                       // bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                        CropImage.activity(data.getData())
+                                .setGuidelines(CropImageView.Guidelines.ON)
+                                .setAspectRatio(1,1)
+                                .setAutoZoomEnabled(true)
+                                .setAllowRotation(true)
+                                .setAllowCounterRotation(true)
+                                .setAllowFlipping(true)
+                                .setActivityTitle("بریدن عکس")
+                                .setCropShape(CropImageView.CropShape.RECTANGLE)
+                                .setFixAspectRatio(true)
+                                .setMaxCropResultSize(1000,1000)
+                                .setMinCropResultSize(100,100)
+                                .setBackgroundColor(getResources().getColor(R.color.colorRow))
+                                .setBorderLineColor(getResources().getColor(R.color.colorRed))
+                                .setGuidelinesColor(getResources().getColor(R.color.colorGreenDark))
+                                .setBorderCornerColor(getResources().getColor(R.color.colorBlue))
 
-                    } catch (IOException e) {
+                                .start(this);
+
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 });
@@ -203,6 +222,22 @@ public class NewPostActivity extends AppCompatActivity {
                 }
 
             }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), resultUri);
+                    img.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
+        }
 
     }
 }

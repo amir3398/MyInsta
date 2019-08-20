@@ -17,12 +17,10 @@ import android.provider.Settings;
 import android.widget.Toast;
 
 import com.example.myinsta.classes.MySharedPrefrence;
-import com.example.myinsta.classes.NewPostActivity;
 import com.example.myinsta.classes.PostAdapter;
 import com.example.myinsta.data.RetrofitClient;
 import com.example.myinsta.model.JsonResponseModel;
 import com.example.myinsta.model.PostModel;
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
