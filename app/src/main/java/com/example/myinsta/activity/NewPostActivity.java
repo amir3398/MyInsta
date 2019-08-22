@@ -1,4 +1,4 @@
-package com.example.myinsta;
+package com.example.myinsta.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.emoji.widget.EmojiEditText;
 
+import com.example.myinsta.R;
 import com.example.myinsta.classes.MySharedPrefrence;
 import com.example.myinsta.data.RetrofitClient;
 import com.example.myinsta.model.JsonResponseModel;
@@ -40,6 +41,7 @@ public class NewPostActivity extends AppCompatActivity {
     private EmojiEditText des;
     private ImageView img;
     private String path;
+    private Uri path2;
     private Bitmap bitmap;
 
     @Override
@@ -90,7 +92,8 @@ public class NewPostActivity extends AppCompatActivity {
 
         File f = (File) File.createTempFile(MySharedPrefrence.getInstance(this)
                 .getUsername() + date, ".jpg", getExternalFilesDir(Environment.DIRECTORY_PICTURES));
-        path = f.getAbsolutePath();
+        //path = f.getAbsolutePath();
+        path2=Uri.fromFile(f);
 
         return f;
     }
@@ -108,7 +111,7 @@ public class NewPostActivity extends AppCompatActivity {
         i.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
         try {
             i.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.
-                    getUriForFile(this, "com.example.android.fileprovider", createFile()));
+                    getUriForFile(this, "com.example.myinsta.fileprovider", createFile()));
             startActivityForResult(i, 456);
         } catch (IOException e) {
             e.printStackTrace();
@@ -188,7 +191,7 @@ public class NewPostActivity extends AppCompatActivity {
                                 .setFixAspectRatio(true)
                                 .setMaxCropResultSize(1000,1000)
                                 .setMinCropResultSize(100,100)
-                                .setBackgroundColor(getResources().getColor(R.color.colorRow))
+                                .setBackgroundColor(getResources().getColor(R.color.colorMirror))
                                 .setBorderLineColor(getResources().getColor(R.color.colorRed))
                                 .setGuidelinesColor(getResources().getColor(R.color.colorGreenDark))
                                 .setBorderCornerColor(getResources().getColor(R.color.colorBlue))
@@ -209,9 +212,9 @@ public class NewPostActivity extends AppCompatActivity {
 
 
             } else if (requestCode == 123) {
-                img.setImageURI(Uri.parse(path));
+                img.setImageURI(path2);
                 try {
-                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.parse(path));
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), path2);
 
                 } catch (IOException e) {
                     e.printStackTrace();

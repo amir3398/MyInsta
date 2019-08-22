@@ -28,10 +28,17 @@ public interface Api {
     @GET("getPost.php")
     Call<PostModel> getPost();
 
+    @GET("getComment.php")
+    Call<PostModel> getComment(@Query("postid") String postid);
+
     @FormUrlEncoded
     @POST("verify.php")
     Call<JsonResponseModel> verify(@Field("username") String username ,@Field("os") String os  );
 
+    @FormUrlEncoded
+    @POST("newComment.php")
+    Call<JsonResponseModel> newComment(@Field("username") String username ,@Field("comment") String comment ,
+                                    @Field("postid") String postid );
 
 
 }

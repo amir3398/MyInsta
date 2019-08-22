@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CommentActivity">
+    tools:context=".activity.CommentActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/comment_recycler"
@@ -17,11 +17,13 @@
         android:layout_height="0dp"/>
 
     <androidx.emoji.widget.EmojiEditText
-        android:layout_margin="4dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="8dp"
         android:hint="your comment"
         android:textDirection="anyRtl"
         android:id="@+id/comment_comment"
         android:padding="6dp"
+
         android:background="@drawable/bg_txt"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -30,6 +32,9 @@
         android:layout_height="wrap_content" />
 
     <ImageView
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="16dp"
         android:id="@+id/comment_send"
         android:rotation="180"
         android:src="@mipmap/ic_send"

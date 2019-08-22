@@ -65,7 +65,7 @@
                 android:id="@+id/register_gender1"
                 style="@style/TextAppearance.AppCompat.Large"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:checked="true"
                 android:text="male"
@@ -101,13 +101,14 @@
 
             <EditText
                 android:id="@+id/register_password"
+
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/bg_txt"
                 android:gravity="center"
                 android:hint="password"
-                android:inputType="text"
+                android:inputType="textPassword"
                 android:maxLength="20"
                 android:padding="8dp"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -122,7 +123,7 @@
                 android:background="@drawable/bg_txt"
                 android:gravity="center"
                 android:hint="repeat password"
-                android:inputType="text"
+                android:inputType="textPassword"
                 android:maxLength="20"
                 android:padding="8dp"
                 app:layout_constraintLeft_toLeftOf="parent"

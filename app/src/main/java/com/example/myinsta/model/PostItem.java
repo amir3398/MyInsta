@@ -3,15 +3,21 @@ package com.example.myinsta.model;
 public class PostItem {
     private String id;
     private String user_id;
-    private String des;
+    private String description;
     private String image;
     private String date;
+    private String comment;
+    private String countComment;
+
+    public String getCountComment() {
+        return countComment;
+    }
 
     public String getComment() {
         return comment;
     }
 
-    private String comment;
+
 
     public String getId() {
         return id;
@@ -21,8 +27,8 @@ public class PostItem {
         return user_id;
     }
 
-    public String getDes() {
-        return des;
+    public String getDescription() {
+        return description;
     }
 
     public String getImage() {

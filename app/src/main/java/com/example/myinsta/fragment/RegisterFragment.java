@@ -101,7 +101,7 @@ public class RegisterFragment extends Fragment {
             } else if (repeatPassword.getText().toString().equals("")) {
                 Toast.makeText(getContext(), "Please enter repeat password", Toast.LENGTH_SHORT).show();
                 repeatPassword.requestFocus();
-            } else if (!password.getText().toString().equals(password.getText().toString())) {
+            } else if (!password.getText().toString().equals(repeatPassword.getText().toString())) {
                 Toast.makeText(getContext(), "repeat password incorrect", Toast.LENGTH_SHORT).show();
                 repeatPassword.requestFocus();
                 repeatPassword.setText("");

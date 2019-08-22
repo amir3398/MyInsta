@@ -1,4 +1,4 @@
-package com.example.myinsta;
+package com.example.myinsta.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -14,16 +14,15 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.myinsta.R;
 import com.example.myinsta.classes.MySharedPrefrence;
-import com.example.myinsta.classes.PostAdapter;
+import com.example.myinsta.adapter.PostAdapter;
 import com.example.myinsta.data.RetrofitClient;
 import com.example.myinsta.model.JsonResponseModel;
 import com.example.myinsta.model.PostModel;
-import com.facebook.drawee.view.SimpleDraweeView;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,9 +31,7 @@ import retrofit2.Response;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class HomeActivity extends AppCompatActivity {
-    private MaterialButton exit;
-    private FloatingActionButton fab;
-    private SimpleDraweeView draweeView;
+    private ImageView exit,addPost,setting;
     private RecyclerView recyclerView;
 
     @Override
@@ -43,12 +40,14 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         init();
+        getData();
 
     }
 
     private void init() {
-        exit = findViewById(R.id.home_exit);
-        fab = findViewById(R.id.home_fab);
+        exit = findViewById(R.id.toolbar_exit);
+        addPost = findViewById(R.id.toolbar_new);
+        setting = findViewById(R.id.toolbar_setting);
         recyclerView = findViewById(R.id.home_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -99,7 +98,7 @@ public class HomeActivity extends AppCompatActivity {
             HomeActivity.this.finish();
         });
 
-        fab.setOnClickListener(v->{
+        addPost.setOnClickListener(v->{
             if(checkPermissin()!=PackageManager.PERMISSION_GRANTED) {
                 if(ActivityCompat.shouldShowRequestPermissionRationale
                         (HomeActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE)){
@@ -119,6 +118,9 @@ public class HomeActivity extends AppCompatActivity {
             }else
                 goToDialog();
         });
+
+        setting.setOnClickListener(v->
+                startActivity(new Intent(HomeActivity.this, SettingActivity.class)) );
     }
 
     private void showExplanation(){

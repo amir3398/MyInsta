@@ -7,5 +7,6 @@
     <color name="colorRed">#FF0404</color>
     <color name="colorGreenDark">#37753A</color>
     <color name="colorRow">#E68AF3</color>
+    <color name="colorMirror">#70E68AF3</color>
     <color name="colorBlue">#1D0DFA</color>
 </resources>

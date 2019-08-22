@@ -1,20 +1,22 @@
-package com.example.myinsta.classes;
+package com.example.myinsta.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.emoji.widget.EmojiTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myinsta.activity.CommentActivity;
 import com.example.myinsta.R;
 import com.example.myinsta.model.PostItem;
-import com.example.myinsta.model.PostModel;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -41,13 +43,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         PostItem item=list.get(position);
 
-        holder.des.setText(new String(Base64.decode(item.getDes(),Base64.DEFAULT)));
-        holder.user.setText(item.getId());
+        holder.des.setText(new String(Base64.decode(item.getDescription(),Base64.DEFAULT)));
+        holder.user.setText(item.getUser_id());
         holder.simple.setImageURI(Uri.parse(context.getString(R.string.image_address,item.getImage())));
 
         holder.date.setText(item.getDate());
         holder.id.setText(item.getId());
-        holder.commentCount.setText(item.getComment()+"");
+        holder.commentCount.setText(item.getCountComment()+"");
+
+        holder.comment.setOnClickListener(v->{
+            Intent in=new Intent(context, CommentActivity.class);
+            in.putExtra("postid",item.getId());
+            context.startActivity(in);
+        });
 
 
     }
@@ -61,6 +69,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         private TextView user,date,id,commentCount;
         private EmojiTextView des;
         private SimpleDraweeView simple;
+        private ImageView comment;
 
         public ViewHolder(@NonNull View v) {
             super(v);
@@ -71,6 +80,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             id=v.findViewById(R.id.row_post_id);
             date=v.findViewById(R.id.row_post_date);
             commentCount=v.findViewById(R.id.row_post_comment_count);
+            comment=v.findViewById(R.id.row_post_comment);
         }
     }
 }

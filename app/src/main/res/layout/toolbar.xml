@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:id="@+id/toolbar_toolbar"
+    android:background="@color/colorCard"
+    android:layout_height="?attr/actionBarSize">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:rotation="180"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@mipmap/ic_exit"
+            android:id="@+id/toolbar_exit"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_margin="8dp"/>
+
+        <ImageView
+            android:tint="@color/colorBlue"
+            android:rotation="90"
+            app:layout_constraintLeft_toRightOf="@+id/toolbar_exit"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@mipmap/ic_setting"
+            android:id="@+id/toolbar_setting"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_margin="8dp"/>
+
+        <ImageView
+            android:tint="@color/colorBlue"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:src="@mipmap/ic_add"
+            android:id="@+id/toolbar_new"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="8dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.appcompat.widget.Toolbar>

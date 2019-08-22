@@ -13,8 +13,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.myinsta.HomeActivity;
-import com.example.myinsta.MainActivity;
+import com.example.myinsta.activity.HomeActivity;
 import com.example.myinsta.R;
 import com.example.myinsta.classes.MySharedPrefrence;
 import com.example.myinsta.data.RetrofitClient;
