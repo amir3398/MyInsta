@@ -2,9 +2,10 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/colorRow"
+    app:cardBackgroundColor="@color/colorGray"
     android:layout_margin="8dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="16dp">
@@ -22,11 +23,11 @@
             android:layout_height="wrap_content" />
         <ImageView
             android:id="@+id/row_post_img"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_margin="6dp"
             android:background="@drawable/bg_img_row"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -37,12 +38,12 @@
             android:padding="6dp"
             android:text="user"
             app:layout_constraintBottom_toBottomOf="@id/row_post_img"
-            app:layout_constraintLeft_toRightOf="@id/row_post_img"
+            app:layout_constraintRight_toLeftOf="@id/row_post_img"
             app:layout_constraintTop_toTopOf="@id/row_post_img" />
 
         <com.facebook.drawee.view.SimpleDraweeView
 
-            android:layout_margin="8dp"
+            android:layout_marginTop="8dp"
             android:id="@+id/row_post_simple"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -52,6 +53,7 @@
             app:layout_constraintDimensionRatio="1:1" />
 
         <ImageView
+            android:layout_marginTop="8dp"
             android:id="@+id/row_post_comment"
             app:layout_constraintLeft_toLeftOf="@id/row_post_simple"
             app:layout_constraintTop_toBottomOf="@id/row_post_simple"
@@ -71,7 +73,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+        <ImageView
+            android:layout_marginTop="4dp"
+            android:id="@+id/row_post_like"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/like"
+            android:tint="@color/colorYellow"
+            app:layout_constraintBottom_toBottomOf="@id/row_post_comment"
+            app:layout_constraintLeft_toRightOf="@id/row_post_comment"
+            app:layout_constraintTop_toBottomOf="@id/row_post_simple" />
         <TextView
+            android:gravity="center"
+            android:textStyle="bold"
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/colorBlue"
+            android:text="count"
+            android:id="@+id/row_post_like_count"
+            app:layout_constraintLeft_toLeftOf="@id/row_post_like"
+            app:layout_constraintRight_toRightOf="@id/row_post_like"
+            app:layout_constraintTop_toTopOf="@id/row_post_comment_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginRight="6dp"
             android:textColor="@android:color/black"
             style="@style/TextAppearance.AppCompat.Caption"
             android:text="2019/08/20 15:03:03"
@@ -79,8 +106,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintRight_toRightOf="@id/row_post_simple"
-            app:layout_constraintBottom_toBottomOf="@id/row_post_comment_count"
-            app:layout_constraintTop_toTopOf="@id/row_post_comment" />
+            app:layout_constraintTop_toBottomOf="@id/row_post_simple" />
 
         <androidx.emoji.widget.EmojiTextView
             android:id="@+id/row_post_des"

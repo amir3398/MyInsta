@@ -103,7 +103,7 @@ public class NewPostActivity extends AppCompatActivity {
         Intent i = new Intent();
         i.setAction(Intent.ACTION_GET_CONTENT);
         i.setType("image/*");
-        startActivityForResult(Intent.createChooser(i, "select an app"), 123);
+        startActivityForResult(Intent.createChooser(i, "select an image"), 123);
     }
 
     private void selectFromCamera() {
@@ -189,7 +189,7 @@ public class NewPostActivity extends AppCompatActivity {
                                 .setActivityTitle("بریدن عکس")
                                 .setCropShape(CropImageView.CropShape.RECTANGLE)
                                 .setFixAspectRatio(true)
-                                .setMaxCropResultSize(1000,1000)
+                                //.setMaxCropResultSize(2000,2000)
                                 .setMinCropResultSize(100,100)
                                 .setBackgroundColor(getResources().getColor(R.color.colorMirror))
                                 .setBorderLineColor(getResources().getColor(R.color.colorRed))
@@ -211,7 +211,7 @@ public class NewPostActivity extends AppCompatActivity {
                 builder.show();
 
 
-            } else if (requestCode == 123) {
+            } else if (requestCode == 456) {
                 img.setImageURI(path2);
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), path2);

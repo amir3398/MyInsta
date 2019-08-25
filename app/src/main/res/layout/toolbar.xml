@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:id="@+id/toolbar_toolbar"
-    android:background="@color/colorCard"
+    android:background="@color/colorGrayDark"
     android:layout_height="?attr/actionBarSize">
 
     <androidx.constraintlayout.widget.ConstraintLayout

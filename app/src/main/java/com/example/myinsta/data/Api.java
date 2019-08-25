@@ -15,7 +15,8 @@ public interface Api {
     @FormUrlEncoded
     @POST("reg.php")
     Call<JsonResponseModel> registerUser(@Field("name") String name ,@Field("family") String family
-            ,@Field("sex") String sex,@Field("user") String username,@Field("pass") String password);
+            ,@Field("sex") String sex,@Field("user") String username,@Field("pass") String password,
+            @Field("image") String image ,@Field("picname") String picname);
 
     @GET("login.php")
     Call<JsonResponseModel> loginUser(@Query("user") String username, @Query("pass") String password);
@@ -39,6 +40,18 @@ public interface Api {
     @POST("newComment.php")
     Call<JsonResponseModel> newComment(@Field("username") String username ,@Field("comment") String comment ,
                                     @Field("postid") String postid );
+
+    @FormUrlEncoded
+    @POST("like.php")
+    Call<JsonResponseModel> like(@Field("userid") String userid ,@Field("postid") String postid);
+
+    @FormUrlEncoded
+    @POST("getLikeColor.php")
+    Call<JsonResponseModel> getLikeColor(@Field("userid") String userid ,@Field("postid") String postid);
+
+    @FormUrlEncoded
+    @POST("getCommentColor.php")
+    Call<JsonResponseModel> getCommentColor(@Field("userid") String userid ,@Field("postid") String postid);
 
 
 }

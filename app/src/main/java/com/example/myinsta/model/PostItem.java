@@ -8,6 +8,16 @@ public class PostItem {
     private String date;
     private String comment;
     private String countComment;
+    private String countLike;
+    private String usrename;
+
+    public String getCountLike() {
+        return countLike;
+    }
+
+    public String getUsrename() {
+        return usrename;
+    }
 
     public String getCountComment() {
         return countComment;
@@ -16,8 +26,6 @@ public class PostItem {
     public String getComment() {
         return comment;
     }
-
-
 
     public String getId() {
         return id;

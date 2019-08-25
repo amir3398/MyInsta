@@ -20,16 +20,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.SettingActivity"></activity>
+        <activity android:name=".activity.LikeActivity"></activity>
+        <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.CommentActivity" />
         <activity android:name=".activity.HomeActivity" />
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.NewPostActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"

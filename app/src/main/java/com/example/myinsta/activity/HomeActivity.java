@@ -22,17 +22,22 @@ import com.example.myinsta.classes.MySharedPrefrence;
 import com.example.myinsta.adapter.PostAdapter;
 import com.example.myinsta.data.RetrofitClient;
 import com.example.myinsta.model.JsonResponseModel;
+import com.example.myinsta.model.PostItem;
 import com.example.myinsta.model.PostModel;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class HomeActivity extends AppCompatActivity {
     private ImageView exit,addPost,setting;
     private RecyclerView recyclerView;
+    private List<PostItem> data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,25 @@ public class HomeActivity extends AppCompatActivity {
         super.onResume();
         getData();
         version();
+    }
+
+    private  void getData(){
+        RetrofitClient.getInstance(this).getApi().getPost().enqueue(new Callback<PostModel>() {
+            @Override
+            public void onResponse(Call<PostModel> call, Response<PostModel> response) {
+                if(response.isSuccessful()) {
+                    data = response.body().getData();
+                    PostAdapter adapter = new PostAdapter(HomeActivity.this,data );
+                    recyclerView.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PostModel> call, Throwable t) {
+                Toast.makeText(HomeActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
     private void version(){
@@ -94,14 +118,16 @@ public class HomeActivity extends AppCompatActivity {
     private void onclicks() {
         exit.setOnClickListener(v -> {
             MySharedPrefrence.getInstance(HomeActivity.this).clearSharedPrefrence();
-            startActivity(new Intent(HomeActivity.this, MainActivity.class));
+            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
             HomeActivity.this.finish();
         });
 
         addPost.setOnClickListener(v->{
+
+
             if(checkPermissin()!=PackageManager.PERMISSION_GRANTED) {
                 if(ActivityCompat.shouldShowRequestPermissionRationale
-                        (HomeActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                        (HomeActivity.this, CAMERA)){
                     showExplanation();
                 }else if(!MySharedPrefrence.getInstance(HomeActivity.this).getWriteExternal()){
                     requestPermission();
@@ -135,29 +161,12 @@ public class HomeActivity extends AppCompatActivity {
         builder.show();
     }
 
-    private  void getData(){
-        RetrofitClient.getInstance(this).getApi().getPost().enqueue(new Callback<PostModel>() {
-            @Override
-            public void onResponse(Call<PostModel> call, Response<PostModel> response) {
-                if(response.isSuccessful()) {
-                    PostAdapter adapter = new PostAdapter(HomeActivity.this, response.body().getData());
-                    recyclerView.setAdapter(adapter);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<PostModel> call, Throwable t) {
-
-            }
-        });
-    }
-
     private int checkPermissin(){
-       return ActivityCompat.checkSelfPermission(HomeActivity.this, WRITE_EXTERNAL_STORAGE);
+       return ActivityCompat.checkSelfPermission(HomeActivity.this, CAMERA);
     }
 
     private void requestPermission(){
-        ActivityCompat.requestPermissions(HomeActivity.this,new String[]{WRITE_EXTERNAL_STORAGE},123);
+        ActivityCompat.requestPermissions(HomeActivity.this,new String[]{CAMERA},123);
     }
 
     @Override

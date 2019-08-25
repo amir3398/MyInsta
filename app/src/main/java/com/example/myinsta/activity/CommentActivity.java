@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Base64;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -18,17 +17,19 @@ import com.example.myinsta.adapter.CommentAdapter;
 import com.example.myinsta.classes.MySharedPrefrence;
 import com.example.myinsta.data.RetrofitClient;
 import com.example.myinsta.model.JsonResponseModel;
+import com.example.myinsta.model.PostItem;
 import com.example.myinsta.model.PostModel;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CommentActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private CommentAdapter adapter;
+    private RecyclerView recyclerComment;
+    private List<PostItem> data;
     private EmojiEditText comment;
     private ImageView send;
     private String postid;
@@ -43,11 +44,11 @@ public class CommentActivity extends AppCompatActivity {
 
 
     private void init() {
-        recyclerView = findViewById(R.id.comment_recycler);
+        recyclerComment = findViewById(R.id.comment_recycler);
         LinearLayoutManager lm=new LinearLayoutManager(this);
         lm.setReverseLayout(true);
         lm.setStackFromEnd(false);
-        recyclerView.setLayoutManager(lm);
+        recyclerComment.setLayoutManager(lm);
 
         comment = findViewById(R.id.comment_comment);
         send = findViewById(R.id.comment_send);
@@ -69,7 +70,7 @@ public class CommentActivity extends AppCompatActivity {
                 }
 
             }
-        }).attachToRecyclerView(recyclerView);
+        }).attachToRecyclerView(recyclerComment);
 
         postid = getIntent().getExtras().getString("postid", "0");
         if (postid.isEmpty() || postid.equals("0")) {
@@ -94,9 +95,9 @@ public class CommentActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            String u=MySharedPrefrence.getInstance(this).getUsername();
 
-            RetrofitClient.getInstance(this).getApi().newComment(MySharedPrefrence.
-                    getInstance(this).getUsername(),Base64.encodeToString(c, Base64.DEFAULT),postid)
+            RetrofitClient.getInstance(this).getApi().newComment(u,Base64.encodeToString(c, Base64.DEFAULT),postid)
                     .enqueue(new Callback<JsonResponseModel>() {
                         @Override
                         public void onResponse(Call<JsonResponseModel> call, Response<JsonResponseModel> response) {
@@ -129,8 +130,9 @@ public class CommentActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<PostModel> call, Response<PostModel> response) {
                         if (response.isSuccessful()) {
-                            adapter = new CommentAdapter(response.body().getData());
-                            recyclerView.setAdapter(adapter);
+                            data = response.body().getData();
+                            CommentAdapter adapter = new CommentAdapter(response.body().getData());
+                            recyclerComment.setAdapter(adapter);
                         } else {
 
                             Toast.makeText(CommentActivity.this, "try again", Toast.LENGTH_SHORT).show();
