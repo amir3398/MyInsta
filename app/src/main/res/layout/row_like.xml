@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardBackgroundColor="@android:color/holo_orange_light"
+    app:cardBackgroundColor="@android:color/holo_blue_bright"
     app:cardCornerRadius="8dp"
     app:cardElevation="16dp">
 
@@ -14,7 +15,7 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             app:roundAsCircle="true"
-            android:id="@+id/row_comment_simple_user"
+            android:id="@+id/row_like_simple_user"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_margin="6dp"
@@ -22,28 +23,17 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/row_comment_username"
+            android:id="@+id/row_like_username"
             style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="username"
-            app:layout_constraintRight_toLeftOf="@id/row_comment_simple_user"
+            app:layout_constraintRight_toLeftOf="@id/row_like_simple_user"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.emoji.widget.EmojiTextView
-            android:textDirection="anyRtl"
-            android:id="@+id/row_comment_comment"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="comment"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/row_comment_username" />
-
         <TextView
-            android:id="@+id/row_comment_date"
+            android:id="@+id/row_like_date"
             style="@style/TextAppearance.AppCompat.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,7 +41,7 @@
             android:gravity="left"
             android:text="date"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/row_comment_comment" />
+            app:layout_constraintTop_toBottomOf="@id/row_like_username" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

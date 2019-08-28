@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.LikeActivity"></activity>
+        <activity android:name=".activity.LikeActivity" />
         <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.CommentActivity" />
         <activity android:name=".activity.HomeActivity" />

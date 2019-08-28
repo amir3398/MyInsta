@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myinsta.activity.CommentActivity;
 import com.example.myinsta.R;
 import com.example.myinsta.activity.LikeActivity;
+import com.example.myinsta.classes.MySharedPrefrence;
 import com.example.myinsta.data.RetrofitClient;
 import com.example.myinsta.model.JsonResponseModel;
 import com.example.myinsta.model.PostItem;
@@ -55,7 +56,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         holder.des.setText(new String(Base64.decode(item.getDescription(), Base64.DEFAULT)));
         holder.user.setText(item.getUser_id());
-        holder.simple.setImageURI(Uri.parse(context.getString(R.string.image_address, item.getImage())));
+        holder.simplePost.setImageURI(Uri.parse(context.getString(R.string.image_address, item.getImage())));
+        holder.simpleUser.setImageURI(Uri.parse(context.getString(R.string.image_address_user, item.getImage_user())));
         holder.date.setText(item.getDate());
         holder.id.setText(item.getId());
         holder.commentCount.setText(item.getCountComment());
@@ -66,12 +68,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             in.putExtra("postid", item.getId());
             context.startActivity(in);
         });
-        holder.simple.setOnClickListener(v -> {
+        holder.simplePost.setOnClickListener(v -> {
             if (counter == 0) {
                 counter++;
             } else if (counter == 1) {
                 counter = 0;
-                RetrofitClient.getInstance(context).getApi().like(item.getUser_id(), item.getId())
+                RetrofitClient.getInstance(context).getApi().like(MySharedPrefrence.getInstance(context).getUsername(), item.getId())
                         .enqueue(new Callback<JsonResponseModel>() {
                             @Override
                             public void onResponse(Call<JsonResponseModel> call, Response<JsonResponseModel> response) {
@@ -109,9 +111,32 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             in.putExtra("postid", item.getId());
             context.startActivity(in);
         });
+        holder.save.setOnClickListener(v -> {
+
+            RetrofitClient.getInstance(context).getApi().save(MySharedPrefrence.getInstance(context).getUsername(), item.getId())
+                    .enqueue(new Callback<JsonResponseModel>() {
+                        @Override
+                        public void onResponse(Call<JsonResponseModel> call, Response<JsonResponseModel> response) {
+                            if (response.code()==200) {
+                                holder.save.setColorFilter(context.getResources().getColor(R.color.colorRed));
+                                Toast.makeText(context, "seved", Toast.LENGTH_SHORT).show();
+
+                            } else if (response.code()==201) {
+                                holder.save.setColorFilter(context.getResources().getColor(R.color.colorYellow));
+                                Toast.makeText(context, "un saved", Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<JsonResponseModel> call, Throwable t) {
+                            Toast.makeText(context, "not aviliable internet", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        });
 
 
-        RetrofitClient.getInstance(context).getApi().getLikeColor(item.getUser_id(), item.getId())
+        RetrofitClient.getInstance(context).getApi().getLikeColor(MySharedPrefrence.getInstance(context).getUsername(), item.getId())
                 .enqueue(new Callback<JsonResponseModel>() {
                     @Override
                     public void onResponse(Call<JsonResponseModel> call, Response<JsonResponseModel> response) {
@@ -127,7 +152,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                     }
                 });
 
-        RetrofitClient.getInstance(context).getApi().getCommentColor(item.getUser_id(), item.getId())
+        RetrofitClient.getInstance(context).getApi().getCommentColor(MySharedPrefrence.getInstance(context).getUsername(), item.getId())
                 .enqueue(new Callback<JsonResponseModel>() {
                     @Override
                     public void onResponse(Call<JsonResponseModel> call, Response<JsonResponseModel> response) {
@@ -135,6 +160,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                             holder.comment.setColorFilter(context.getResources().getColor(R.color.colorRed));
                         else if (response.body().getMessage().equals("no"))
                             holder.comment.setColorFilter(context.getResources().getColor(R.color.colorYellow));
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonResponseModel> call, Throwable t) {
+                        Toast.makeText(context, "not aviliable internet", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+        RetrofitClient.getInstance(context).getApi().getSaveColor(MySharedPrefrence.getInstance(context).getUsername(), item.getId())
+                .enqueue(new Callback<JsonResponseModel>() {
+                    @Override
+                    public void onResponse(Call<JsonResponseModel> call, Response<JsonResponseModel> response) {
+                        if (response.body().getMessage().equals("yes"))
+                            holder.save.setColorFilter(context.getResources().getColor(R.color.colorRed));
+                        else if (response.body().getMessage().equals("no"))
+                            holder.save.setColorFilter(context.getResources().getColor(R.color.colorYellow));
 
                     }
 
@@ -155,25 +198,28 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView user, date, id, commentCount,likeCount;
+        private TextView user, date, id, commentCount, likeCount;
         private EmojiTextView des;
-        private SimpleDraweeView simple;
-        private ImageView comment,like;
+        private SimpleDraweeView simplePost,simpleUser;
+        private ImageView comment, like, save;
 
         public ViewHolder(@NonNull View v) {
             super(v);
 
             user = v.findViewById(R.id.row_post_user);
             des = v.findViewById(R.id.row_post_des);
-            simple = v.findViewById(R.id.row_post_simple);
+            simplePost = v.findViewById(R.id.row_post_simple_post);
+            simpleUser = v.findViewById(R.id.row_post_simple_user);
             id = v.findViewById(R.id.row_post_id);
             date = v.findViewById(R.id.row_post_date);
             commentCount = v.findViewById(R.id.row_post_comment_count);
             comment = v.findViewById(R.id.row_post_comment);
             like = v.findViewById(R.id.row_post_like);
             likeCount = v.findViewById(R.id.row_post_like_count);
+            save = v.findViewById(R.id.row_post_save);
 
 
         }
     }
+
 }

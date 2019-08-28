@@ -8,14 +8,11 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.FileProvider;
 
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Base64;
@@ -30,16 +27,17 @@ import com.example.myinsta.R;
 import com.example.myinsta.classes.MySharedPrefrence;
 import com.example.myinsta.data.RetrofitClient;
 import com.example.myinsta.model.JsonResponseModel;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.material.button.MaterialButton;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -52,7 +50,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText name, family, username, password, repeatPassword;
     private RadioButton male, famale;
     private MaterialButton create, cancel;
-    private ImageView img;
+    //private SimpleDraweeView simpleUser;
+    private CircleImageView simpleUser;
     private TextView imgtext;
 
     private boolean checkImage=false;
@@ -79,7 +78,7 @@ public class RegisterActivity extends AppCompatActivity {
         username = findViewById(R.id.register_username);
         password = findViewById(R.id.register_password);
         repeatPassword = findViewById(R.id.register_repeat_password);
-        img = findViewById(R.id.register_img);
+        simpleUser = findViewById(R.id.register_simple_user);
         imgtext = findViewById(R.id.register_img_text);
 
         male = findViewById(R.id.register_gender1);
@@ -303,9 +302,8 @@ public class RegisterActivity extends AppCompatActivity {
                 Uri resultUri = result.getUri();
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), resultUri);
-                    img.setImageBitmap(bitmap);
+                    simpleUser.setImageBitmap(bitmap);
                     checkImage=true;
-                    imgtext.setVisibility(View.GONE);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

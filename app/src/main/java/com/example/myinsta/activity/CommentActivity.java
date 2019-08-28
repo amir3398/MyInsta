@@ -42,6 +42,11 @@ public class CommentActivity extends AppCompatActivity {
         init();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getData();
+    }
 
     private void init() {
         recyclerComment = findViewById(R.id.comment_recycler);
@@ -79,7 +84,7 @@ public class CommentActivity extends AppCompatActivity {
         }
 
 
-        //getData();
+        getData();
         clicks();
     }
 
@@ -104,7 +109,7 @@ public class CommentActivity extends AppCompatActivity {
                             if(response.isSuccessful()){
                                 comment.setText("");
                                 Toast.makeText(CommentActivity.this, "comment added", Toast.LENGTH_SHORT).show();
-
+                                onResume();
                                 //getData();
                             }else{
                                 Toast.makeText(CommentActivity.this, "try again", Toast.LENGTH_SHORT).show();
@@ -119,7 +124,9 @@ public class CommentActivity extends AppCompatActivity {
                         }
                     });
 
-        });
+
+        }
+        );
     }
 
     private void getData() {
@@ -131,7 +138,7 @@ public class CommentActivity extends AppCompatActivity {
                     public void onResponse(Call<PostModel> call, Response<PostModel> response) {
                         if (response.isSuccessful()) {
                             data = response.body().getData();
-                            CommentAdapter adapter = new CommentAdapter(response.body().getData());
+                            CommentAdapter adapter = new CommentAdapter(data,CommentActivity.this);
                             recyclerComment.setAdapter(adapter);
                         } else {
 

@@ -18,12 +18,11 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
-public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
-
+public class LikeAdapter extends RecyclerView.Adapter<LikeAdapter.ViewHolder>  {
     private List<PostItem> list;
     private Context context;
 
-    public CommentAdapter( List<PostItem> list,Context context) {
+    public LikeAdapter( List<PostItem> list,Context context) {
         this.list = list;
         this.context = context;
 
@@ -34,8 +33,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_comment, parent, false);
-        return new ViewHolder(v);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_like, parent, false);
+        return new LikeAdapter.ViewHolder(v);
     }
 
     @Override
@@ -43,8 +42,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         PostItem item=list.get(position);
 
         holder.username.setText(item.getUser_id());
-        //holder.comment.setText(item.getComment());
-        holder.comment.setText(new String(Base64.decode(item.getComment(), Base64.DEFAULT)));
         holder.date.setText(item.getDate());
         holder.simpleUser.setImageURI(Uri.parse(context.getString(R.string.image_address_user, item.getImage_user())));
 
@@ -56,18 +53,16 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         return list.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder{
         private TextView username, date;
-        private EmojiTextView comment;
         private SimpleDraweeView simpleUser;
 
         public ViewHolder(@NonNull View v) {
             super(v);
 
-            username = v.findViewById(R.id.row_comment_username);
-            comment = v.findViewById(R.id.row_comment_comment);
-            date = v.findViewById(R.id.row_comment_date);
-            simpleUser=v.findViewById(R.id.row_comment_simple_user);
+            username = v.findViewById(R.id.row_like_username);
+            date = v.findViewById(R.id.row_like_date);
+            simpleUser=v.findViewById(R.id.row_like_simple_user);
         }
     }
 }

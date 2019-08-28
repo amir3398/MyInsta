@@ -5,18 +5,14 @@ public class PostItem {
     private String user_id;
     private String description;
     private String image;
+    private String image_user;
     private String date;
     private String comment;
     private String countComment;
     private String countLike;
-    private String usrename;
 
     public String getCountLike() {
         return countLike;
-    }
-
-    public String getUsrename() {
-        return usrename;
     }
 
     public String getCountComment() {
@@ -45,5 +41,9 @@ public class PostItem {
 
     public String getDate() {
         return date;
+    }
+
+    public String getImage_user() {
+        return image_user;
     }
 }

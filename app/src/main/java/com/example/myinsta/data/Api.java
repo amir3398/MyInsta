@@ -32,6 +32,9 @@ public interface Api {
     @GET("getComment.php")
     Call<PostModel> getComment(@Query("postid") String postid);
 
+    @GET("getLike.php")
+    Call<PostModel> getLike(@Query("postid") String postid);
+
     @FormUrlEncoded
     @POST("verify.php")
     Call<JsonResponseModel> verify(@Field("username") String username ,@Field("os") String os  );
@@ -53,5 +56,12 @@ public interface Api {
     @POST("getCommentColor.php")
     Call<JsonResponseModel> getCommentColor(@Field("userid") String userid ,@Field("postid") String postid);
 
+    @FormUrlEncoded
+    @POST("getSaveColor.php")
+    Call<JsonResponseModel> getSaveColor(@Field("userid") String userid ,@Field("postid") String postid);
+
+    @FormUrlEncoded
+    @POST("save.php")
+    Call<JsonResponseModel> save(@Field("userid") String userid ,@Field("postid") String postid );
 
 }

@@ -7,7 +7,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -32,11 +31,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.Manifest.permission.CAMERA;
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class HomeActivity extends AppCompatActivity {
     private ImageView exit,addPost,setting;
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerPost;
     private List<PostItem> data;
 
     @Override
@@ -53,8 +51,8 @@ public class HomeActivity extends AppCompatActivity {
         exit = findViewById(R.id.toolbar_exit);
         addPost = findViewById(R.id.toolbar_new);
         setting = findViewById(R.id.toolbar_setting);
-        recyclerView = findViewById(R.id.home_recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerPost = findViewById(R.id.home_recycler);
+        recyclerPost.setLayoutManager(new LinearLayoutManager(this));
 
         onclicks();
 
@@ -74,7 +72,7 @@ public class HomeActivity extends AppCompatActivity {
                 if(response.isSuccessful()) {
                     data = response.body().getData();
                     PostAdapter adapter = new PostAdapter(HomeActivity.this,data );
-                    recyclerView.setAdapter(adapter);
+                    recyclerPost.setAdapter(adapter);
                 }
             }
 

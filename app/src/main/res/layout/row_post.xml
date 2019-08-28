@@ -21,45 +21,56 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <ImageView
-            android:id="@+id/row_post_img"
+        <com.facebook.drawee.view.SimpleDraweeView
+            app:roundAsCircle="true"
+            android:id="@+id/row_post_simple_user"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_margin="6dp"
-            android:background="@drawable/bg_img_row"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:layout_marginRight="8dp"
             android:id="@+id/row_post_user"
             style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="6dp"
             android:text="user"
-            app:layout_constraintBottom_toBottomOf="@id/row_post_img"
-            app:layout_constraintRight_toLeftOf="@id/row_post_img"
-            app:layout_constraintTop_toTopOf="@id/row_post_img" />
+            app:layout_constraintBottom_toBottomOf="@id/row_post_simple_user"
+            app:layout_constraintRight_toLeftOf="@id/row_post_simple_user"
+            app:layout_constraintTop_toTopOf="@id/row_post_simple_user" />
 
         <com.facebook.drawee.view.SimpleDraweeView
 
             android:layout_marginTop="8dp"
-            android:id="@+id/row_post_simple"
+            android:id="@+id/row_post_simple_post"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/row_post_img"
+            app:layout_constraintTop_toBottomOf="@id/row_post_simple_user"
             app:layout_constraintDimensionRatio="1:1" />
 
         <ImageView
+            android:layout_marginLeft="4dp"
             android:layout_marginTop="8dp"
             android:id="@+id/row_post_comment"
-            app:layout_constraintLeft_toLeftOf="@id/row_post_simple"
-            app:layout_constraintTop_toBottomOf="@id/row_post_simple"
+            app:layout_constraintLeft_toRightOf="@id/row_post_save"
+            app:layout_constraintTop_toBottomOf="@id/row_post_simple_post"
             android:src="@mipmap/ic_comment"
             android:layout_width="35dp"
             android:layout_height="35dp" />
+        <ImageView
+            android:layout_marginTop="8dp"
+            android:id="@+id/row_post_save"
+            app:layout_constraintLeft_toLeftOf="@id/row_post_simple_post"
+            app:layout_constraintTop_toBottomOf="@id/row_post_simple_post"
+            android:src="@mipmap/ic_save"
+            android:layout_width="35dp"
+            android:layout_height="35dp" />
+
         <TextView
             android:gravity="center"
             android:textStyle="bold"
@@ -83,7 +94,7 @@
             android:tint="@color/colorYellow"
             app:layout_constraintBottom_toBottomOf="@id/row_post_comment"
             app:layout_constraintLeft_toRightOf="@id/row_post_comment"
-            app:layout_constraintTop_toBottomOf="@id/row_post_simple" />
+            app:layout_constraintTop_toBottomOf="@id/row_post_simple_post" />
         <TextView
             android:gravity="center"
             android:textStyle="bold"
@@ -105,8 +116,8 @@
             android:id="@+id/row_post_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintRight_toRightOf="@id/row_post_simple"
-            app:layout_constraintTop_toBottomOf="@id/row_post_simple" />
+            app:layout_constraintRight_toRightOf="@id/row_post_simple_post"
+            app:layout_constraintTop_toBottomOf="@id/row_post_simple_post" />
 
         <androidx.emoji.widget.EmojiTextView
             android:id="@+id/row_post_des"
