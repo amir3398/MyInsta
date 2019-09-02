@@ -2,14 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.myinsta">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <meta-data
-        android:name="fontProviderRequests"
-        android:value="Noto Color Emoji Compat" />
-
     <application
         android:name=".classes.MyApplication"
         android:allowBackup="true"
@@ -20,6 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".activity.BiogeraphiActivity"></activity>
+        <activity android:name=".activity.SaveActivity" />
         <activity android:name=".activity.LikeActivity" />
         <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.CommentActivity" />
@@ -47,5 +41,13 @@
                 android:resource="@xml/file_path" />
         </provider>
     </application>
+    <meta-data
+        android:name="fontProviderRequests"
+        android:value="Noto Color Emoji Compat" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>

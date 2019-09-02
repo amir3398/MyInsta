@@ -33,7 +33,7 @@ import retrofit2.Response;
 import static android.Manifest.permission.CAMERA;
 
 public class HomeActivity extends AppCompatActivity {
-    private ImageView exit,addPost,setting;
+    private ImageView exit,addPost,setting,save;
     private RecyclerView recyclerPost;
     private List<PostItem> data;
 
@@ -49,6 +49,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void init() {
         exit = findViewById(R.id.toolbar_exit);
+        save=findViewById(R.id.toolbar_save);
         addPost = findViewById(R.id.toolbar_new);
         setting = findViewById(R.id.toolbar_setting);
         recyclerPost = findViewById(R.id.home_recycler);
@@ -145,6 +146,10 @@ public class HomeActivity extends AppCompatActivity {
 
         setting.setOnClickListener(v->
                 startActivity(new Intent(HomeActivity.this, SettingActivity.class)) );
+
+        save.setOnClickListener(v->{
+            startActivity(new Intent(HomeActivity.this, SaveActivity.class)) ;
+        });
     }
 
     private void showExplanation(){

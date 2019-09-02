@@ -217,7 +217,8 @@ public class NewPostActivity extends AppCompatActivity {
                     bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), path2);
 
                 } catch (IOException e) {
-                    e.printStackTrace();
+                   // e.printStackTrace();
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
             }

@@ -29,8 +29,18 @@ public interface Api {
     @GET("getPost.php")
     Call<PostModel> getPost();
 
+    @GET("getMyPost.php")
+    Call<PostModel> getMyPost(@Query("username") String username);
+
+    @FormUrlEncoded
+    @POST("getSave.php")
+    Call<PostModel> getSave(@Field("username") String username);
+
     @GET("getComment.php")
     Call<PostModel> getComment(@Query("postid") String postid);
+
+    @GET("deletePost.php")
+    Call<JsonResponseModel> deletePost(@Query("postid") String postid);
 
     @GET("getLike.php")
     Call<PostModel> getLike(@Query("postid") String postid);
@@ -58,10 +68,13 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("getSaveColor.php")
-    Call<JsonResponseModel> getSaveColor(@Field("userid") String userid ,@Field("postid") String postid);
+    Call<JsonResponseModel> getSaveColor(@Field("username") String username ,@Field("postid") String postid);
 
     @FormUrlEncoded
     @POST("save.php")
-    Call<JsonResponseModel> save(@Field("userid") String userid ,@Field("postid") String postid );
+    Call<JsonResponseModel> save(@Field("username") String username ,@Field("postid") String postid );
 
+    @FormUrlEncoded
+    @POST("newFriend.php")
+    Call<JsonResponseModel> newFriend(@Field("username_friend") String username_friend ,@Field("username_me") String username_me);
 }

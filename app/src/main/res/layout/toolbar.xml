@@ -24,11 +24,20 @@
 
         <ImageView
             android:tint="@color/colorBlue"
-            android:rotation="90"
             app:layout_constraintLeft_toRightOf="@+id/toolbar_exit"
             app:layout_constraintTop_toTopOf="parent"
             android:src="@mipmap/ic_setting"
             android:id="@+id/toolbar_setting"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_margin="8dp"/>
+
+        <ImageView
+            android:tint="@color/colorBlue"
+            app:layout_constraintLeft_toRightOf="@+id/toolbar_setting"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@mipmap/ic_save"
+            android:id="@+id/toolbar_save"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_margin="8dp"/>

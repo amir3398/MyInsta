@@ -15,9 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.emoji.widget.EmojiTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myinsta.activity.BiogeraphiActivity;
 import com.example.myinsta.activity.CommentActivity;
 import com.example.myinsta.R;
 import com.example.myinsta.activity.LikeActivity;
+import com.example.myinsta.activity.SettingActivity;
 import com.example.myinsta.classes.MySharedPrefrence;
 import com.example.myinsta.data.RetrofitClient;
 import com.example.myinsta.model.JsonResponseModel;
@@ -133,6 +135,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                             Toast.makeText(context, "not aviliable internet", Toast.LENGTH_SHORT).show();
                         }
                     });
+        });
+        holder.user.setOnClickListener(v->{
+            if(holder.user.getText().equals(MySharedPrefrence.getInstance(context).getUsername())){
+                context.startActivity(new Intent(context, SettingActivity.class));
+            }else{
+                Intent i=new Intent(context, BiogeraphiActivity.class);
+                i.putExtra("username", item.getUser_id());
+                context.startActivity(i);
+            }
         });
 
 
