@@ -88,7 +88,7 @@ public class NewPostActivity extends AppCompatActivity {
     }
 
     private File createFile() throws IOException {
-        String date = new SimpleDateFormat("_yyyymmdd_hhMMss", Locale.ENGLISH).format(new Date());
+        String date = new SimpleDateFormat("_yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date());
 
         File f = (File) File.createTempFile(MySharedPrefrence.getInstance(this)
                 .getUsername() + date, ".jpg", getExternalFilesDir(Environment.DIRECTORY_PICTURES));

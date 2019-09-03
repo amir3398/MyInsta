@@ -77,4 +77,19 @@ public interface Api {
     @FormUrlEncoded
     @POST("newFriend.php")
     Call<JsonResponseModel> newFriend(@Field("username_friend") String username_friend ,@Field("username_me") String username_me);
+
+    @FormUrlEncoded
+    @POST("getFriend.php")
+    Call<JsonResponseModel> getFriend(@Field("username_friend") String username_friend ,@Field("username_me") String username_me);
+
+
+    @FormUrlEncoded
+    @POST("block.php")
+    Call<JsonResponseModel> block(@Field("username_blocked") String username_blocked ,@Field("username_blocker") String username_blocker);
+
+    @FormUrlEncoded
+    @POST("getBlock.php")
+    Call<JsonResponseModel> getBlock(@Field("username_blocked") String username_blocked ,@Field("username_blocker") String username_blocker);
+
+
 }

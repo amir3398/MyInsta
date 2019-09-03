@@ -82,6 +82,51 @@ public class BiogeraphiActivity extends AppCompatActivity {
 
                     }
                 });
+
+        RetrofitClient.getInstance(this).getApi().
+                getBlock(username,MySharedPrefrence.getInstance(this).getUsername()).
+                enqueue(new Callback<JsonResponseModel>() {
+                    @Override
+                    public void onResponse(Call<JsonResponseModel> call, Response<JsonResponseModel> response) {
+                        if (response.body().getMessage().equals("unblocked")) {
+                            biogeraphiBlock.setText("blocked");
+                            biogeraphiBlock.setTextColor(getResources().getColor(R.color.colorBlue));
+
+                        } else if (response.body().getMessage().equals("blocked")){
+                            biogeraphiBlock.setText("unblocked");
+                            biogeraphiBlock.setTextColor(getResources().getColor(R.color.colorRed));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonResponseModel> call, Throwable t) {
+                        Toast.makeText(BiogeraphiActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+        RetrofitClient.getInstance(this).getApi().
+                getFriend(username,MySharedPrefrence.getInstance(this).getUsername()).
+                enqueue(new Callback<JsonResponseModel>() {
+                    @Override
+                    public void onResponse(Call<JsonResponseModel> call, Response<JsonResponseModel> response) {
+                        if (response.body().getMessage().equals("isFriend")) {
+                            biogeraphiAddFriend.setText("remove friend");
+                            biogeraphiAddFriend.setTextColor(getResources().getColor(R.color.colorRed));
+
+                        } else if (response.body().getMessage().equals("isNotFriend")){
+                            biogeraphiAddFriend.setText("add friend");
+                            biogeraphiAddFriend.setTextColor(getResources().getColor(R.color.colorBlue));
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonResponseModel> call, Throwable t) {
+                        Toast.makeText(BiogeraphiActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
     }
 
 
@@ -94,14 +139,48 @@ public class BiogeraphiActivity extends AppCompatActivity {
                     .enqueue(new Callback<JsonResponseModel>() {
                         @Override
                         public void onResponse(Call<JsonResponseModel> call, Response<JsonResponseModel> response) {
-                            if (response.body().getMessage().equals("added")) {
-                                Toast.makeText(BiogeraphiActivity.this,response.body().getMessage() , Toast.LENGTH_SHORT).show();
+                            if (response.body().getMessage().equals("addFriend")) {
+                                Toast.makeText(BiogeraphiActivity.this,"friend added" , Toast.LENGTH_SHORT).show();
+                                biogeraphiAddFriend.setText("remove friend");
+                                biogeraphiAddFriend.setTextColor(getResources().getColor(R.color.colorRed));
 
-                            } else if (response.body().getMessage().equals("deleted")){
+                            } else if (response.body().getMessage().equals("removeFriend")){
+                                Toast.makeText(BiogeraphiActivity.this, "friend removed", Toast.LENGTH_SHORT).show();
+                                biogeraphiAddFriend.setText("add friend");
+                                biogeraphiAddFriend.setTextColor(getResources().getColor(R.color.colorBlue));
 
-                                Toast.makeText(BiogeraphiActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                             }else{
-                                Toast.makeText(BiogeraphiActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(BiogeraphiActivity.this, "error", Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<JsonResponseModel> call, Throwable t) {
+                            Toast.makeText(BiogeraphiActivity.this, "failure", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+        });
+
+        biogeraphiBlock.setOnClickListener(v->{
+            RetrofitClient.getInstance(this).getApi().
+                    block(username,MySharedPrefrence.getInstance(this).getUsername())
+                    .enqueue(new Callback<JsonResponseModel>() {
+                        @Override
+                        public void onResponse(Call<JsonResponseModel> call, Response<JsonResponseModel> response) {
+                            if (response.body().getMessage().equals("blocked")) {
+                                Toast.makeText(BiogeraphiActivity.this,"blocked" , Toast.LENGTH_SHORT).show();
+                                biogeraphiBlock.setText("unblocked");
+                                biogeraphiBlock.setTextColor(getResources().getColor(R.color.colorRed));
+
+                            } else if (response.body().getMessage().equals("unblocked")){
+                                Toast.makeText(BiogeraphiActivity.this, "unblocked", Toast.LENGTH_SHORT).show();
+                                biogeraphiBlock.setText("blocked");
+                                biogeraphiBlock.setTextColor(getResources().getColor(R.color.colorBlue));
+
+                            }else{
+                                Toast.makeText(BiogeraphiActivity.this, "error", Toast.LENGTH_SHORT).show();
 
                             }
                         }
