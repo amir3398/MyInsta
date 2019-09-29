@@ -50,4 +50,16 @@ public class MySharedPrefrence {
         return sp.getBoolean("writeExternal",false);
 
     }
+
+    public void setUsernameBio(String username){
+        editor.putString("isUsernameBio",username).commit();
+    }
+
+    public String getUsernameBio(){
+        return sp.getString("isUsernameBio","");
+
+    }
+
+
+
 }

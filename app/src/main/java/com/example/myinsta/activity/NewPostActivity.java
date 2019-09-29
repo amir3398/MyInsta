@@ -1,18 +1,22 @@
 package com.example.myinsta.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Base64;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.emoji.widget.EmojiEditText;
 
@@ -35,6 +39,8 @@ import java.util.Locale;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.Manifest.permission.CAMERA;
 
 public class NewPostActivity extends AppCompatActivity {
     private MaterialButton select, save, back;
@@ -67,8 +73,29 @@ public class NewPostActivity extends AppCompatActivity {
             builder.setTitle("select image ");
             builder.setMessage("select image from :");
             builder.setPositiveButton("camera", (dialog, b) -> {
-                selectFromCamera();
-                dialog.dismiss();
+
+
+                if (checkPermissin() != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale
+                            (NewPostActivity.this, CAMERA)) {
+                        showExplanation();
+                    } else if (!MySharedPrefrence.getInstance(NewPostActivity.this).getWriteExternal()) {
+                        requestPermission();
+                        MySharedPrefrence.getInstance(NewPostActivity.this).setWriteExternal();
+                    } else {
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", getPackageName(), null);
+                        intent.setData(uri);
+                        startActivity(intent);
+                        Toast.makeText(this, "please allowed permission", Toast.LENGTH_SHORT).show();
+
+                    }
+                } else {
+
+                    selectFromCamera();
+                    dialog.dismiss();
+                }
             });
 
             builder.setNegativeButton("gallery", (dialog, b) -> {
@@ -82,7 +109,10 @@ public class NewPostActivity extends AppCompatActivity {
             builder.show();
         });
 
-        back.setOnClickListener(v -> onBackPressed());
+        back.setOnClickListener(v -> {
+            startActivity(new Intent(NewPostActivity.this,HomeActivity.class));
+            NewPostActivity.this.finish();
+        });
 
         save.setOnClickListener(v -> sendNewPost());
     }
@@ -90,10 +120,10 @@ public class NewPostActivity extends AppCompatActivity {
     private File createFile() throws IOException {
         String date = new SimpleDateFormat("_yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date());
 
-        File f = (File) File.createTempFile(MySharedPrefrence.getInstance(this)
+        File f = File.createTempFile(MySharedPrefrence.getInstance(this)
                 .getUsername() + date, ".jpg", getExternalFilesDir(Environment.DIRECTORY_PICTURES));
         //path = f.getAbsolutePath();
-        path2=Uri.fromFile(f);
+        path2 = Uri.fromFile(f);
 
         return f;
     }
@@ -127,19 +157,19 @@ public class NewPostActivity extends AppCompatActivity {
     }
 
     private void sendNewPost() {
-        String picname = new SimpleDateFormat("_yyyymmdd_hhMMss", Locale.ENGLISH).format(new Date());
+        String picname = new SimpleDateFormat("_yyyyMMdd_hhmmss", Locale.ENGLISH).format(new Date());
 
         String u = MySharedPrefrence.getInstance(this).getUsername();
 
         //String d = des.getText().toString() + "";
 
-        if(des.getText().toString().equals("")){
+        if (des.getText().toString().equals("")) {
             Toast.makeText(this, "complete the form", Toast.LENGTH_SHORT).show();
             return;
         }
 
 
-        byte[]  d = new byte[0];
+        byte[] d = new byte[0];
         try {
             d = des.getText().toString().getBytes("UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -148,14 +178,14 @@ public class NewPostActivity extends AppCompatActivity {
 
 
         RetrofitClient.getInstance(this).getApi().newpost(u, toBase64(bitmap),
-                u + picname,Base64.encodeToString(d,Base64.DEFAULT))
+                u + picname, Base64.encodeToString(d, Base64.DEFAULT))
                 .enqueue(new Callback<JsonResponseModel>() {
                     @Override
                     public void onResponse(Call<JsonResponseModel> call, Response<JsonResponseModel> response) {
 
                         if (response.isSuccessful()) {
                             Toast.makeText(NewPostActivity.this, "inserted", Toast.LENGTH_SHORT).show();
-                                onBackPressed();
+                            onBackPressed();
                         } else {
                             Toast.makeText(NewPostActivity.this, "error", Toast.LENGTH_SHORT).show();
                         }
@@ -170,6 +200,34 @@ public class NewPostActivity extends AppCompatActivity {
     }
 
 
+    private void showExplanation() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(NewPostActivity.this);
+        builder.setTitle("permission needed");
+        builder.setMessage("please allow this permission");
+        builder.setPositiveButton("allow", (a, b) ->
+                requestPermission());
+        builder.setNegativeButton("dont allow", (a, b) ->
+                a.dismiss());
+        builder.setCancelable(false);
+        builder.show();
+    }
+
+    private int checkPermissin() {
+        return ActivityCompat.checkSelfPermission(NewPostActivity.this, CAMERA);
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(NewPostActivity.this, new String[]{CAMERA}, 456);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 456)
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                selectFromCamera();
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == RESULT_OK)
@@ -180,23 +238,23 @@ public class NewPostActivity extends AppCompatActivity {
                 builder.setPositiveButton("yes", (a, b) -> {
 
                     CropImage.activity(data.getData())
-                                .setGuidelines(CropImageView.Guidelines.ON)
-                                .setAspectRatio(1,1)
-                                .setAutoZoomEnabled(true)
-                                .setAllowRotation(true)
-                                .setAllowCounterRotation(true)
-                                .setAllowFlipping(true)
-                                .setActivityTitle("بریدن عکس")
-                                .setCropShape(CropImageView.CropShape.RECTANGLE)
-                                .setFixAspectRatio(true)
-                                //.setMaxCropResultSize(2000,2000)
-                                .setMinCropResultSize(100,100)
-                                .setBackgroundColor(getResources().getColor(R.color.colorMirror))
-                                .setBorderLineColor(getResources().getColor(R.color.colorRed))
-                                .setGuidelinesColor(getResources().getColor(R.color.colorGreenDark))
-                                .setBorderCornerColor(getResources().getColor(R.color.colorBlue))
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .setAspectRatio(1, 1)
+                            .setAutoZoomEnabled(true)
+                            .setAllowRotation(true)
+                            .setAllowCounterRotation(true)
+                            .setAllowFlipping(true)
+                            .setActivityTitle("بریدن عکس")
+                            .setCropShape(CropImageView.CropShape.RECTANGLE)
+                            .setFixAspectRatio(true)
+                            //.setMaxCropResultSize(2000,2000)
+                            .setMinCropResultSize(100, 100)
+                            .setBackgroundColor(getResources().getColor(R.color.colorMirror))
+                            .setBorderLineColor(getResources().getColor(R.color.colorRed))
+                            .setGuidelinesColor(getResources().getColor(R.color.colorGreenDark))
+                            .setBorderCornerColor(getResources().getColor(R.color.colorBlue))
 
-                                .start(this);
+                            .start(this);
 
 
                 });
@@ -217,7 +275,7 @@ public class NewPostActivity extends AppCompatActivity {
                     bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), path2);
 
                 } catch (IOException e) {
-                   // e.printStackTrace();
+                    // e.printStackTrace();
                     Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 

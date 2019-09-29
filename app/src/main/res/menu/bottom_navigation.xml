@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+    android:icon="@drawable/vector_home"
+    android:id="@+id/bn_home"
+    android:title="home"/>
+
+    <item
+        android:icon="@drawable/vector_friends"
+        android:id="@+id/bn_friends"
+        android:title="my friends"/>
+
+    <item
+        android:icon="@drawable/vector_add"
+        android:id="@+id/bn_add"
+        android:title="add post"/>
+
+    <item
+        android:icon="@drawable/vector_save"
+        android:id="@+id/bn_save"
+        android:title="saved"/>
+
+    <item
+        android:icon="@drawable/vector_profile"
+        android:id="@+id/bn_profile"
+        android:title="profile"/>
+
+
+</menu>

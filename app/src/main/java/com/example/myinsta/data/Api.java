@@ -32,6 +32,10 @@ public interface Api {
     @GET("getMyPost.php")
     Call<PostModel> getMyPost(@Query("username") String username);
 
+
+    @GET("getPostFriend.php")
+    Call<PostModel> getPostFriend(@Query("username") String username);
+
     @FormUrlEncoded
     @POST("getSave.php")
     Call<PostModel> getSave(@Field("username") String username);
@@ -91,5 +95,19 @@ public interface Api {
     @POST("getBlock.php")
     Call<JsonResponseModel> getBlock(@Field("username_blocked") String username_blocked ,@Field("username_blocker") String username_blocker);
 
+    @FormUrlEncoded
+    @POST("updateImageUser.php")
+    Call<JsonResponseModel> updateImageUser(@Field("username") String username,
+                        @Field("image") String image ,@Field("picname") String picname);
+
+    @FormUrlEncoded
+    @POST("updatePasswordUser.php")
+    Call<JsonResponseModel> updatePasswordUser(@Field("username") String username,
+                                               @Field("password") String password);
+
+    @FormUrlEncoded
+    @POST("getPasswordUser.php")
+    Call<JsonResponseModel> getPasswordUser(@Field("username") String username,
+                                            @Field("password") String password);
 
 }

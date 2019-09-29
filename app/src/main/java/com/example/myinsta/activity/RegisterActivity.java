@@ -50,7 +50,6 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText name, family, username, password, repeatPassword;
     private RadioButton male, famale;
     private MaterialButton create, cancel;
-    //private SimpleDraweeView simpleUser;
     private CircleImageView simpleUser;
     private TextView imgtext;
 
@@ -115,7 +114,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         create.setOnClickListener(v -> {
 
-            String picname = new SimpleDateFormat("_yyyymmdd_hhMMss", Locale.ENGLISH).format(new Date());
+            String picname = new SimpleDateFormat("_yyyyMMdd_hhmmss", Locale.ENGLISH).format(new Date());
 
             if (checkImage==false){
                 Toast.makeText(this, "Please select image", Toast.LENGTH_SHORT).show();
@@ -153,7 +152,7 @@ public class RegisterActivity extends AppCompatActivity {
                 else
                     g = "famale";
                 RetrofitClient.getInstance(this).getApi().
-                        registerUser(n, f, g, u, p,toBase64(bitmap),u+picname).enqueue(new Callback<JsonResponseModel>() {
+                        registerUser(n, f, g, u, p,toBase64(bitmap),u).enqueue(new Callback<JsonResponseModel>() {
                     @Override
                     public void onResponse(Call<JsonResponseModel> call, Response<JsonResponseModel> response) {
                         if (response.isSuccessful()) {

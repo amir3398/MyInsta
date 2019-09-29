@@ -3,6 +3,6 @@
 
     <external-path
         name="my_images"
-        path="Android/data/com.example.myinsta/File/Picture"/>
+        path="Android/data/com.example.myinsta/files/Pictures"/>
 
 </paths>

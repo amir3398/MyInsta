@@ -3,10 +3,9 @@
     <color name="colorPrimary">#FFC107</color>
     <color name="colorPrimaryDark">#FF6F00</color>
     <color name="colorAccent">#BB1469</color>
-    <color name="colorCard">#BFAEEA00</color>
+    <color name="colorCard">#BFF0F7E5</color>
     <color name="colorRed">#FF0404</color>
     <color name="colorGreenDark">#37753A</color>
-    <color name="colorRow">#E68AF3</color>
     <color name="colorMirror">#70E68AF3</color>
     <color name="colorBlue">#1D0DFA</color>
     <color name="colorGray">#CBCBD1</color>

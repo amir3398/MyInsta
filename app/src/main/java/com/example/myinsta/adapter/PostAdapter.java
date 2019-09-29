@@ -3,25 +3,29 @@ package com.example.myinsta.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.emoji.widget.EmojiTextView;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myinsta.activity.BiogeraphiActivity;
+import com.example.myinsta.fragment.BiogeraphiFragment;
 import com.example.myinsta.activity.CommentActivity;
 import com.example.myinsta.R;
 import com.example.myinsta.activity.LikeActivity;
-import com.example.myinsta.activity.SettingActivity;
 import com.example.myinsta.classes.MySharedPrefrence;
 import com.example.myinsta.data.RetrofitClient;
+import com.example.myinsta.fragment.ProfileFragment;
 import com.example.myinsta.model.JsonResponseModel;
 import com.example.myinsta.model.PostItem;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -59,11 +63,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.des.setText(new String(Base64.decode(item.getDescription(), Base64.DEFAULT)));
         holder.user.setText(item.getUser_id());
         holder.simplePost.setImageURI(Uri.parse(context.getString(R.string.image_address, item.getImage())));
-        holder.simpleUser.setImageURI(Uri.parse(context.getString(R.string.image_address_user, item.getImage_user())));
+        holder.simpleUser.setImageURI(Uri.parse(context.getString(R.string.image_address_user, item.getUser_id())));
         holder.date.setText(item.getDate());
         holder.id.setText(item.getId());
         holder.commentCount.setText(item.getCountComment());
         holder.likeCount.setText(item.getCountLike());
+
+        //MySharedPrefrence.getInstance(context).setUserImage(item.getImage());
 
         holder.comment.setOnClickListener(v -> {
             Intent in = new Intent(context, CommentActivity.class);
@@ -132,17 +138,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
                         @Override
                         public void onFailure(Call<JsonResponseModel> call, Throwable t) {
-                            Toast.makeText(context, "not aviliable internet", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "failure", Toast.LENGTH_SHORT).show();
                         }
                     });
         });
         holder.user.setOnClickListener(v->{
             if(holder.user.getText().equals(MySharedPrefrence.getInstance(context).getUsername())){
-                context.startActivity(new Intent(context, SettingActivity.class));
+
             }else{
-                Intent i=new Intent(context, BiogeraphiActivity.class);
-                i.putExtra("username", item.getUser_id());
-                context.startActivity(i);
+//                BiogeraphiFragment bf=new BiogeraphiFragment();
+//                Bundle bundle=new Bundle();
+//                bundle.putString("username",item.getUser_id());
+//                bf.setArguments(bundle);
+//
+                MySharedPrefrence.getInstance(context).setUsernameBio(item.getUser_id());
+                ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction()
+                     .replace(R.id.home_container,  new BiogeraphiFragment()).addToBackStack(null).commit();
+
             }
         });
 
@@ -155,6 +167,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                             holder.like.setColorFilter(context.getResources().getColor(R.color.colorRed));
                         else if (response.body().getMessage().equals("unlike"))
                             holder.like.setColorFilter(context.getResources().getColor(R.color.colorYellow));
+
                     }
 
                     @Override

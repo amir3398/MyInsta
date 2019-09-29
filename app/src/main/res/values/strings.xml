@@ -3,4 +3,31 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="updated">آپدیت گردید</string>
+    <string name="update">آپدیت عکس</string>
+    <string name="error">خطای سرور</string>
+    <string name="failure">خطای اینترنت</string>
+    <string name="old_password">رمز قبلی</string>
+    <string name="new_password">رمز جدید</string>
+    <string name="repeat_password">تکرار رمز جدید</string>
+    <string name="change_password">تغیر رمز</string>
+    <string name="posts">پست ها</string>
+    <string name="password">رمز</string>
+    <string name="select_image_from_gallery">انتخاب کردن عکس از گالری :</string>
+    <string name="gallery">گالری</string>
+    <string name="cancel">لغو</string>
+    <string name="open_image">باز کردن عکس با</string>
+    <string name="alert">هشدار</string>
+    <string name="are_you_sure">آیا اطمینان دارید؟</string>
+    <string name="yes">بله</string>
+    <string name="select_again">انتخاب مجدد</string>
+    <string name="exit_account">خروج از حساب</string>
+    <string name="error_empty">فیلد نمیتواند خالی باشد</string>
+    <string name="welcome">خوش آمدید</string>
+    <string name="wrong_password">رمز اشتباه وارد شده است</string>
+    <string name="username">نام کاربری</string>
+    <string name="login">ورود</string>
+    <string name="create_an_account">ایجاد حساب کاربری</string>
+
+
 </resources>

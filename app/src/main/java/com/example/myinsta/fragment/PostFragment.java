@@ -66,14 +66,14 @@ public class PostFragment extends Fragment {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                if(direction==ItemTouchHelper.RIGHT){
+                //if(direction==ItemTouchHelper.RIGHT){
                     id=data.get(viewHolder.getAdapterPosition()).getId();
                     deleteMyPost(id);
 
-                }else{
+                //}else{
                    // Toast.makeText(CommentActivity.this, "ItemTouchHelper.LEFT", Toast.LENGTH_SHORT).show();
 
-                }
+                //}
 
             }
         }).attachToRecyclerView(recyclerViewMyPost);
@@ -123,8 +123,7 @@ public class PostFragment extends Fragment {
 
     private void getdata() {
         String u=MySharedPrefrence.getInstance(getContext()).getUsername();
-        RetrofitClient.getInstance(getContext()).getApi().
-                getMyPost(u)
+        RetrofitClient.getInstance(getContext()).getApi().getMyPost(u)
                 .enqueue(new Callback<PostModel>() {
                     @Override
                     public void onResponse(Call<PostModel> call, Response<PostModel> response) {
@@ -134,7 +133,7 @@ public class PostFragment extends Fragment {
                             recyclerViewMyPost.setAdapter(adapter);
                         } else {
 
-                            Toast.makeText(getContext(), "not found any post", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "not found post", Toast.LENGTH_SHORT).show();
                         }
                     }
 
